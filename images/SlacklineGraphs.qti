@@ -1,0 +1,193 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+Tabelle1	31	2	24.07.15 19:11
+geometry	-119	30	765	566	
+header	Force [kN][X]	Stretch [%][Y]
+ColWidth	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13
+ReadOnlyColumn	0	0
+HiddenColumn	0	0
+Comments			
+WindowLabel		2
+<data>
+0	0	0
+1	1	1.06
+2	2	2.39
+3	3	4.52
+4	4	6.94
+5	5	8.8
+6	6	10.33
+7	7	11.69
+8	8	12.78
+9	9	13.84
+10	10	14.79
+11	11	15.7
+12	12	16.65
+13	13	17.4
+</data>
+</table>
+<multiLayer>
+Grafik1	1	1	24.07.15 19:31
+geometry	474	17	1096	836	active
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	9	49	1077	762
+<PageGeometry>0.00827206	0.0621827	0.98989	0.967005</PageGeometry>
+PlotTitle		#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	0	1	0	
+AxesTitles	Force [kN]<br><br>	Stretch [m]<br>			
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	4	5124	4
+AxesTitleDistance	2	-1	2	-1
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	21	75	0	0	0
+ScaleFont0	Ubuntu	17	75	0	0	0
+ScaleFont1	Ubuntu	17	75	0	0	0
+ScaleFont2	Ubuntu	17	75	0	0	0
+ScaleFont3	Ubuntu	17	75	0	0	0
+AxisFont0	Ubuntu	17	50	0	0	0
+AxisFont1	Ubuntu	17	50	0	0	0
+AxisFont2	Ubuntu	17	50	0	0	0
+AxisFont3	Ubuntu	17	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#31363b	#31363b	#31363b	#31363b
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	Tabelle1_Force [kN]	Tabelle1_Stretch [%]	0	1	#000000	0	2	7	0	#000000	#000000	0	#000000	14	1	2	0	0	29	1
+scale	0	0	20	0	5	5	0	0
+scale	1	0	20	0	5	5	0	0
+scale	2	0	14	0	8	5	0	0
+scale	3	0	14	0	8	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<line>	4.5	0	4.5	7.9	1	#000000	SolidLine	0	0	4	45	1	1</line>
+<line>	0	8.2	4.69	8.2	1	#000000	SolidLine	0	0	4	45	1	1</line>
+<line>	0	7.9	4.5	7.9	1	#000000	SolidLine	0	0	4	45	1	1</line>
+<line>	4.69556	8.2	4.69	0	1	#000000	SolidLine	0	0	4	45	1	1</line>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>4.5510835913313</x>
+<y>-0.31948881789137</y>
+<right>5.64912280701754</right>
+<bottom>-1.46964856230032</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+F<sub>anchor</sub>
+</Text>
+<Font>Ubuntu	16	63	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>4.1898864809082</x>
+<y>-0.31948881789137</y>
+<right>4.76780185758514</right>
+<bottom>-1.46964856230032</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+F<sub>0</sub>
+</Text>
+<Font>Ubuntu	16	63	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>-0.67905056759546</x>
+<y>8.6261980830671</y>
+<right>-0.0577915376676987</right>
+<bottom>7.47603833865815</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+Δl
+</Text>
+<Font>Ubuntu	16	75	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+<Legend>
+<Frame>0</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>-0.31785345717234</x>
+<y>8.5303514376997</y>
+<right>0.0577915376676987</right>
+<bottom>7.63578274760383</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+{
+</Text>
+<Font>Ubuntu	10	63	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>0</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>

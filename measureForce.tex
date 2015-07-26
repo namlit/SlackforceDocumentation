@@ -1,0 +1,52 @@
+\chapter{Measure Force}
+
+When you slap a tensioned Slackline with your finger you hear a rhythmical sound on the line multiple times. The idea is to calculate the pretension of the line from the frequency of that sound. When slapping the line a mechanical wave is propagating along the line and reflected at the end. The propagation speed is dependend on the tension of the line.
+
+\section{Physical Background}
+
+The propagation speed of a wave on a tensioned rope or slackline can be described with the following formula.
+
+\begin{equation}
+v = \sqrt{\frac{F}{\mu_0}}
+\label{eqn:speed1}
+\end{equation}
+
+$v$ is the propagation speed, $F$ the force and $\mu_0$ the weight per unit length of the line. During two sounds you can hear the mechanical wave goes from one anchor to the other and back, so it covers a distance two times of the length $l$ of the line. If you measure the time of oscillation $t_{osc}$ the propagation speed can be calculated with the following formula:
+
+\begin{equation}
+	v = \frac{2\cdot l}{t_{osc}}
+	\label{eqn:speed2}
+\end{equation}
+
+If you combine equation \ref{eqn:speed1} and \ref{eqn:speed2} and solve for the force you get the following formula:
+
+\begin{equation}
+	F_0 = \frac{4\cdot l^2\cdot \mu_0}{t_{osc}^2}
+	\label{eqn:measureForce}
+\end{equation}
+
+$F_0$ is the pretension of the line. As you can see the also the weight and the length of the line have to be known. In the App the time of oscillation can be measured automatically with the microphone and some simple audio processing or manually with hearing to the sound of the slackline and typing the rhythm on a button. 
+
+\section{The Influence of the Stretch Behavior}
+
+If you tension the line, the line is also stretching. As the total weight of the line does not change this leads to a decrease of weight per unit length. Equation \ref{eqn:measureForce} will therefore make a systematically mistake on stretchy webbings. To take this into account a linear stretch behavior corresponding to the following formula is assumed.
+
+\begin{equation}
+	\frac{\Delta l}{l} = \alpha \cdot F
+\end{equation}
+
+$\alpha$ is the stretch coefficient and $F$ the force on the line. The corrected weight per unit length is than
+
+\begin{equation}
+	\mu = \mu_0 \cdot \frac{1}{1+\alpha\cdot F}
+\end{equation}
+
+If you replace $\mu_0$ in formula \ref{eqn:measureForce} with the corrected value $\mu$ and solve that equation for F you get the following formula:
+
+\begin{equation}
+	F = \sqrt{\frac{1}{4 \alpha^2} + \frac{\mu_0\cdot 4l^2}{\alpha \cdot t_{osc}^2}}
+	\label{eqn:measureForceWithStretch}
+\end{equation}
+
+In the App this more exact formula is used whenever a stretch coefficient greater than zero is entered.
+It can be shown, that formula \ref{eqn:measureForceWithStretch} equals formula \ref{eqn:measureForce} for $\alpha\rightarrow 0$.

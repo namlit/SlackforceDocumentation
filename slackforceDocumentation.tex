@@ -1,0 +1,59 @@
+\input{macros}
+
+\documentclass[a4paper,12pt]{scrreprt}
+
+%\compileForSmartphone
+
+\usepackage{acronym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{calc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc}
+%\usepackage[ngerman]{babel}
+\usepackage{marvosym}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{setspace}
+\usepackage{subcaption}
+\usepackage{tabu}
+\usepackage{textcomp}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{tikz}
+
+%\usepackage{csquotes}
+%\usepackage[backend=biber,style=numeric-comp,sorting=none,maxnames=8,minnames=8,abbreviate=false]{biblatex} %sorting=nyt
+%\addbibresource{literatur.bib}
+%\DefineBibliographyStrings{ngerman}{
+%	andothers ={{\textit{et\,al\adddot}}},
+%}
+
+\usetikzlibrary{arrows,decorations.pathreplacing}
+
+
+\title{Slackforce: Documentation on the Theoretical Background}
+%\subtitle{\thesisTitle}
+\author{Tilman Sinning}
+
+
+%\includeonly{abkuerzungsverzeichnis, einleitung,theorie,prozessierung,messverfahren,auswertung,ausblick,anhang}
+
+
+
+\begin{document}
+
+	\maketitle
+	
+	\tableofcontents
+
+	\include{introduction}
+	\include{measureForce}
+	\include{calculateForce}
+	\include{dynamicForce}
+	
+
+\end{document}          

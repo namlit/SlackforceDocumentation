@@ -1,9 +1,9 @@
 \chapter{Dynamic Force Simulation}
 
-In the previous section the basic calculations at static conditions were described. However, often it is interesting what the maximum forces are during bouncing or jumping. On highlines the forces involved in a leashfall are also very important. As the calculation of dynamic behavior is much more complicated than on static conditions finding analytic expressions is not constructive. Therefore an simulation approach is used.
+In the previous section the calculations at static conditions were described. However, often it is interesting what the maximum forces are during bouncing or jumping. On highlines the forces involved in a leashfall are also very important. As the calculation of dynamic behavior is much more complicated than on static conditions finding analytic expressions is not constructive. Therefore an simulation approach is used.
 
 
-\section{Basic Idea of the simulation}
+\section{Basic Idea of the Simulation}
 To get the forces on dynamic movements the movement of the slackliner gets separated in very small time steps and for a hole period of bouncing or jumping the current speed and position get calculated for every time step. If the time steps are small enough the acceleration of the slackliner can be assumed to be constant. That leads to the following formulas:
 
 \begin{align}
@@ -17,7 +17,7 @@ In addition the following relations exists:
 	F = a\cdot m
 \end{equation}
 
-a is the accelaration, m the mass, v the speed and s the path. Then for every time step the following pattern is done:
+$a$ is the accelaration, $m$ the mass, $v$ the speed and $s$ the path. Then for every time step the following pattern is done:
 
 \begin{enumerate}
 	\item Set the sag of the slackline to the current position of  the slackliner
@@ -40,7 +40,7 @@ In the section above it is assumed, that the stretch behavior of the line is alw
 	\label{fig:dynamicStandardModel}
 \end{figure}
 
-Figure \ref{fig:dynamicStandardModel} shows the standard linear solid model. This leads to the following differential equation:
+Figure \ref{fig:dynamicStandardModel} shows the standard linear solid model often used to describe viscoelastic behavior. This leads to the following differential equation:
 
 \begin{equation}
 	\sigma + \frac{\eta}{E_1+E_2}\dot\sigma = \frac{E_1E_2}{E_1+E_2}\epsilon + \frac{E_2\eta}{E_1+E_2}\dot\epsilon
@@ -55,7 +55,7 @@ For the calculation of slacklines I like to use the stretch coefficient $\alpha 
 	E = \frac{1}{\alpha\cdot A}
 \end{equation}
 
-The sum of the stretch coefficients $\alpha_1+\alpha_2$ is the static stretch coefficient $\alpha$ of the line from the previous chapters. As for slacklines the cross section $A$ is not very important it makes sense to multiply equation \ref{eqn:standardLinearModel} with $A$:
+The sum of the stretch coefficients $\alpha_1+\alpha_2$ then is the static stretch coefficient $\alpha$ of the line from the previous chapters. As for slacklines the cross section $A$ is not very important it makes sense to multiply equation \ref{eqn:standardLinearModel} with $A$:
 
 \begin{equation}
 F(t) + \frac{\alpha_1\alpha_2}{\alpha}\cdot (\eta A)\cdot\dot F(t) = \frac{\epsilon(t)}{\alpha} + \frac{\alpha_1}{\alpha}\cdot (\eta A)\cdot\dot{\epsilon(t)}
@@ -83,7 +83,7 @@ For the simulation the change of force $\Delta F$ between to time steps $\Delta 
 \end{split}
 \end{equation}
 
- If the time steps are small enough a constant stretch $\epsilon(t) = \epsilon = const$ can be assumed. The derivation of the stretch changes to $\dot{\epsilon}(t) = \frac{\Delta\epsilon}{\Delta t}$. With this simplification the remaining integral can be solved.
+ If the time steps are small enough a constant stretch $\epsilon(t) = \epsilon = const$ can be assumed for the integration. The derivation of the stretch changes to $\dot{\epsilon}(t) = \frac{\Delta\epsilon}{\Delta t}$. With this simplification the remaining integral can be solved.
 The result is:
 
 \begin{equation}
@@ -97,7 +97,7 @@ Equation \ref{eqn:finalDynamicEquation} can now easily be used for the simulatio
 	\item Initialize the force with the pretension and the stretch with the force-stretch-diagram
 	\item Calculate the new position of the slackliner and sag of the line according to the previous section
 	\item Calculate the new stretch and $\Delta\epsilon$ with the geometric properties of the line
-	\item Calculate the new force $F(t+\Delta t) = F(t) + F(\Delta t)$ with equation \ref{eqn:finalDynamicEquation}
+	\item Calculate the new force $F(t+\Delta t) = F(t) + \Delta F$ with equation \ref{eqn:finalDynamicEquation}
 	\item Repeat steps 2 - 4
 \end{enumerate}
 

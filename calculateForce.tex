@@ -1,20 +1,19 @@
 \chapter{Calculate Force}
-
-The idea of calculating forces is to use the geometric information of the line and a known force to calculate unknown forces with simple vector algebra. If the tension of the line at a given sag is known the tension at a different sag can easily be calculated from the stretch behavior.
+The forces of the line are obtained by using the geometric setup of the line at a given load. If the tension of the line at a given sag is known the tension at a different sag can easily be calculated with the aid of the stretch behavior.
 
 \section{Basics} \label{sec:basics}
 
 \begin{figure}[htb] \centering
 	\includegraphics[width=0.8\textwidth]{images/slacklineWithForces.pdf}
-	\caption{Schematical slackline with horizontal and vertical components of force}
+	\caption{Schematical slackline with horizontal and vertical components of an applied force}
 	\label{fig:slacklineWithForces}
 \end{figure}
 
-Figure \ref{fig:slacklineWithForces} shows a schematical slackline with a given length and sag. As you can see it is possible to divide the force that affects the anchor of the line into a horizontal and a vertical component. The forces of the left part of the line will look the same. The total force will be the sum of forces on the left and the right side. So the horizontal components will eliminate each other and the vertical ones get added. If a slackliner is standing on the line the total vertical force has the amount corresponding to the slackliner's weight. From the geometric properties shown in figure \ref{fig:slacklineWithForces} the following equation can easily get extracted:
+Figure \ref{fig:slacklineWithForces} shows a scheme of a slackline with a given length and sag. The load that is applied in the middle of the line results in a specific sag. The force on the anchor is determined by the vertical and horizontal force. The forces of the left part of the line look the same. The total force will be the sum of forces on the left and the right side. So the horizontal components will eliminate each other and the vertical ones are added. If a slackliner is standing on the line the total vertical force corresponds to the slackliner's weight. From the geometric properties shown in figure \ref{fig:slacklineWithForces} the following equation can easily be derived:
 
 
 \begin{equation}
-	\frac{F_a}{0.5\cdot F_v} = \frac{l_1}{s} = \frac{\sqrt{\frac{l^2}{4} + s^2}}{s^2}
+	\frac{F_a}{0.5\cdot F_v} = \frac{l_1}{s} = \frac{\sqrt{\frac{l^2}{4} + s^2}}{s}
 \end{equation}
 
 Together with the gravity acceleration $g = 9.81\frac{m}{s^2}$ and the weight of the slackliner $m$ this leads to the following four equations:
@@ -38,7 +37,7 @@ With Equation \ref{eqn:calcForce} - \ref{eqn:calcLength} it is possible to calcu
 	\label{fig:forceStretchDiagramm}
 \end{figure}
 
-If you know the tension with a person on a line and the stretch behavior it is possible to calculate the pretension. Figure \ref{fig:forceStretchDiagramm} shows the stretch behavior of a Type 18 MKII line as an example. Is can be seen that the stretch is not linear. To get the pretension of the line you need to know the increase of length $\Delta l$ due to the sag of the line. This can be calculated with the following formula:
+If you know the tension of the line when a person stands on it and the stretch behavior it is possible to calculate the pretension. Figure \ref{fig:forceStretchDiagramm} shows the stretch behavior of a Type 18 MKII line as an example. It can be seen that the stretch is not linear. To get the pretension of the line you need to know the increase of length $\Delta l$ due to the sag of the line. This can be calculated with the following formula:
 
 \begin{equation}
 	\Delta l = 2\cdot l_1 - l= 2\cdot \sqrt{s^2+\frac{l^2}{4}} - l
@@ -60,7 +59,7 @@ If a linear stretch behavior $\frac{\Delta l}{l} = \alpha\cdot F$ is assumed it 
 	F = F_0 + \frac{2\cdot \sqrt{s^2+\frac{l^2}{4}} - l}{\alpha\cdot l}
 \end{equation}
 
-However, the App always uses the force-stretch-diagram as the results are better with that method. The diagram is interpolated linear between the provided data points. So the accuracy always depends on the number of available data points.
+However, the App always uses the force-stretch-diagram as the results are better with that method.  Unfortunately some slackline manufacturers provide very little information on the stretch behavior of their lines and only a few data points are available. The app interpolates those data points linear to get the force-stretch-diagram.
 
 \section{Rodeo Lines}
 
@@ -72,7 +71,7 @@ Rodeo Lines are slacklines with a lot of sag and no pretension. So the pretensio
 	\label{fig:RodeoLineWithForces}
 \end{figure}
 
-As it can be seen there is no change to the static forces with a slackliner on the line from figure \ref{fig:slacklineWithForces}. So all the calculations of section ``\nameref{sec:basics}'' are still valid. If you want to do calculations based on the force-stretch-diagram you have to be aware that equation \ref{eqn:deltaL} now changes to
+As it can be seen there is no change to the static forces with a slackliner on the line from figure \ref{fig:slacklineWithForces}. So all the calculations of the section ``\nameref{sec:basics}'' are still valid. If you want to do calculations based on the force-stretch-diagram you have to be aware that equation \ref{eqn:deltaL} now changes to
 
 \begin{equation}
 	\Delta l = 2\cdot (l_2 - l_1) = 2\cdot \left( \sqrt{s^2+\frac{l^2}{4}} - \sqrt{s_0^2+\frac{l^2}{4}}\right)
@@ -88,11 +87,11 @@ In addition there is no pretension to calculate, but you can calculate the initi
 
 \section{Calculating Slackline Forces from the Pretension}
 
-Unfortunately it is very difficult for linear stretch behavior and impossible for a custom stretch behavior to get an analytic expression of the slackline forces dependent on the pretension. Therefore some kind of approximation algorithm has to be used. The App is currently using the Illinois algorithm, that seems to work quite well.
+Unfortunately it is very difficult for linear stretch behavior and impossible for a custom stretch behavior to get an analytic expression of the slackline force that is a function of the pretension. Therefore some kind of approximation algorithm has to be used. The App is currently using the Illinois algorithm, because that seems to work quite well.
 
-\section{Slackliner not in the middle of the Line (not implemented)}
+\section{Slackliner who is not in the middle of the Line (not implemented)}
 
-In the following it is assumed that the slackliner is standing at position $p \in [0,1]$ on the line. The forces always get calculated for the left anchor point. The forces at the right anchor point equal the forces at the left anchor point at position $1-p$. Figure \ref{fig:slacklineWithForcesUnsymmetric} shows the forces on this new setup. If the slackliner is not moving to the left or right the horizontal forces have to be the same on both sides. That leads to different vertical forces and anchor forces on both sides.
+It is assumed that the slackliner is standing at a position $p \in [0,1]$ on the line. The forces are always calculated for the left anchor point. The forces at the right anchor point equal the forces at the left anchor point at position $1-p$. Figure \ref{fig:slacklineWithForcesUnsymmetric} shows the forces in this new setup. If the slackliner stands still the horizontal forces have to be the same on both sides. That leads to different vertical forces and anchor forces on both sides.
 
 \begin{figure}[htb] \centering
 	\begin{subfigure}{\textwidth} \centering
@@ -105,41 +104,41 @@ In the following it is assumed that the slackliner is standing at position $p \i
 	\label{fig:slacklineWithForcesUnsymmetric}
 \end{figure}
 
-From the geometrical properties follows
+According to fig. \ref{fig:slacklineWithForcesUnsymmetric} the equation below can be derived.
 
 \begin{equation}
 	\frac{p\cdot l}{s} = \frac{F_{h,l}}{F_{v,l}} = \frac{ \sqrt{F_{a,l}^2 - F_{v,l}^2 }}{F_{v,l}}
 	\label{eqn:geometricPropertiesUnsymmetric}
 \end{equation}
 
-The the total vertical Force is still the sum of both sides:
+The total vertical force is still the sum of both sides:
 
 \begin{equation}
 	F_v = F_{v,l} + F_{v,r}
 	\label{eqn:verticalForce}
 \end{equation}
 
-The equality of the horizontal forces leads to
+The absolute values of both horizontal forces are the same which leads to:
 
 \begin{equation}
 	\frac{p\cdot l}{s}\cdot F_{v,l} = \frac{(1-p)\cdot l}{s}\cdot F_{v,r} 
 	\label{eqn:horizontalEquality}
 \end{equation}
 
-The combination of equation \ref{eqn:horizontalEquality} and \ref{eqn:verticalForce} gives
+Combining equation \ref{eqn:horizontalEquality} and \ref{eqn:verticalForce} results in:
 
 \begin{equation}
 	F_{v,l} = (1-p)\cdot F_v
 	\label{eqn:leftVerticalForce}
 \end{equation}
 
-Inserting equation \ref{eqn:leftVerticalForce} in \ref{eqn:geometricPropertiesUnsymmetric} gives the final equation
+Inserting equation \ref{eqn:leftVerticalForce} in \ref{eqn:geometricPropertiesUnsymmetric} leads to the final equation
 
 \begin{equation}
 	F_{a,l} = \frac{(1-p)\cdot F_v}{s}\cdot \sqrt{(p\cdot l)^2 + s^2}
 \end{equation}
 
-For $p = 0.5$ this equation is similar to equation \ref{eqn:calcForce} from the previous section. Note that equation \ref{eqn:deltaL} now changes to
+For $p = 0.5$ this equation is identical to equation \ref{eqn:calcForce} from the previous section. Note that equation \ref{eqn:deltaL} now changes to
 
 \begin{equation}
 	\Delta l = \sqrt{ (p\cdot l)^2 + s^2 } + \sqrt{ (1-p)^2 l^2 + s^2 } - l

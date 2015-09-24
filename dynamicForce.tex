@@ -1,23 +1,18 @@
 \chapter{Dynamic Force Simulation}
 
-In the previous section the calculations at static conditions were described. However, often it is interesting what the maximum forces are during bouncing or jumping. On highlines the forces involved in a leashfall are also very important. As the calculation of dynamic behavior is much more complicated than on static conditions finding analytic expressions is not constructive. Therefore an simulation approach is used.
+In the previous section the calculations at static conditions were described. However, normally you do not just stand statically in the middle of a slackline. Often you want to do some bouncing or jumping which leads to a significant increase of force on the line. The goal of this section is to calculate those forces and get an idea of the influence of different setup parameters like length, pretension and stretch.
 
+\section{Slackline as a Spring}
 
-\section{Basic Idea of the Simulation}
-To get the forces on dynamic movements the movement of the slackliner gets separated in very small time steps and for a hole period of bouncing or jumping the current speed and position get calculated for every time step. If the time steps are small enough the acceleration of the slackliner can be assumed to be constant. That leads to the following formulas:
+The simplest approach is to consider the slackline as a spring that can be described with the same formulas as in the previous section. Together with the following formulas and the formulas described in section \ref{sec:basics} it is easy to calculate the movement of the slackliner and the corresponding force:
 
 \begin{align}
-	v(t) &= at+v_0 \\
-	s(t) &= \frac{a}{2}t^2 + v_0 t + s_0
+v(t) &= at+v_0 \\
+s(t) &= \frac{a}{2}t^2 + v_0 t + s_0 \\
+F &= a\cdot m
 \end{align}
 
-In addition the following relations exists:
-
-\begin{equation}
-	F = a\cdot m
-\end{equation}
-
-$a$ is the accelaration, $m$ the mass, $v$ the speed and $s$ the path. Then for every time step the following pattern is done:
+$a$ is the acceleration, $m$ the mass, $v$ the speed and $s$ the current sag. In a first version of the app the following iterative algorithm was used to simulate the movement of a slackliner: 
 
 \begin{enumerate}
 	\item Set the sag of the slackline to the current position of  the slackliner
@@ -25,14 +20,13 @@ $a$ is the accelaration, $m$ the mass, $v$ the speed and $s$ the path. Then for 
 	\item Calculate the acceleration of the slackliner $a = F / m$
 	\item Calculate change in speed $\Delta v = a\cdot\Delta t$
 	\item Calculate change in position $\Delta s = \frac{1}{2}\cdot a\cdot\Delta t^2 + v\cdot\Delta t$
-	\item Add those values to the current position and speed
+	\item Calculate the current position and speed of the slackliner $s_{t+1} = s_{t} + \Delta s$, $v_{t+1} = v_{t} + \Delta v$
+	\item Repeat steps 2 - 6
 \end{enumerate}
 
-When the sign of the speed changes the slackliner is at the lowest point of the line. At this point the maximum forces on the line and the slackliner appear. Therefore the simulation can be stopped here.
+However, this approach as some disadvantages. First from a numerical perspective it would be better to describe the movement of the slackliner with a differential equation and use a numerical approximation method for solving. But more important, dynamic measurements have shown that slacklines behave more like a viscoelastic material and not like a simple spring, that leads to a different behavior than shown above. To take this into account a more advanced model has to be used for the simulation.
 
-\section{Improved Dynamic Model (not implemented)}
-
-In the section above it is assumed, that the stretch behavior of the line is always the same as in the static case. In reality this is not the case and the line behaves more like a viscoelastic material. Therefore it might lead to better results assuming a model based on viscoelastic behavior for the dynamic simulations.
+\section{The Standard Linear Solid Model}
 
 \begin{figure}[htb] \centering
 	\includegraphics[width=0.4\textwidth]{images/dynamicStandardModel.pdf}
@@ -40,67 +34,112 @@ In the section above it is assumed, that the stretch behavior of the line is alw
 	\label{fig:dynamicStandardModel}
 \end{figure}
 
-Figure \ref{fig:dynamicStandardModel} shows the standard linear solid model often used to describe viscoelastic behavior. This leads to the following differential equation:
+The standard linear solid model shown in figure \ref{fig:dynamicStandardModel} is a model to describe the behavior of viscoelastic materials. The springs and damper in the model can be described with the following equations:
+
+\begin{align}
+F_{k_1} &= k_1 \cdot x_1 \\
+F_{k_2} &= k_1 \cdot x_2 \\
+F_{d} &= d \cdot \dot x_1
+\end{align}
+
+From the connection of the elements in figure \ref{fig:dynamicStandardModel} follows:
 
 \begin{equation}
-	\sigma + \frac{\eta}{E_1+E_2}\dot\sigma = \frac{E_1E_2}{E_1+E_2}\epsilon + \frac{E_2\eta}{E_1+E_2}\dot\epsilon
-	\label{eqn:standardLinearModel}
+	F_{k_1} = F_{k_2} + F_d
 \end{equation}
 
-$E_1$, $E_2$ are the elastic modulus of the two springs, $\sigma$ is the applied stress, $\epsilon$ is the stretch $\frac{\Delta l}{l}$ and $\eta$ is the dynamic viscosity. 
-
-For the calculation of slacklines I like to use the stretch coefficient $\alpha = \frac{\epsilon}{F}$ instead of the elastic modulus. The relation between those parameters is:
+Together with $x_1 + x_2 = x$ and $F = k_1 \cdot x_1$ the following equation can be derived:
 
 \begin{equation}
-	E = \frac{1}{\alpha\cdot A}
+	F + \frac{d}{k_1 + k_2} \dot F = \frac{k_1 \cdot k_2}{k_1 + k_2} x + \frac{d \cdot k_1}{k_1 + k_2} \dot x
+	\label{eqn:linearSolidModel}
 \end{equation}
 
-The sum of the stretch coefficients $\alpha_1+\alpha_2$ then is the static stretch coefficient $\alpha$ of the line from the previous chapters. As for slacklines the cross section $A$ is not very important it makes sense to multiply equation \ref{eqn:standardLinearModel} with $A$:
+With this equation the behavior of the slackline will be described in the following. For static conditions we have $\dot x_1 = 0$. Therefore the total spring constant $k_{ges} = \frac{k_1 \cdot k_2}{k_1 + k_2}$ can be described by the static stretch behavior of the slackline from the previous chapter with the following formula:
 
 \begin{equation}
-F(t) + \frac{\alpha_1\alpha_2}{\alpha}\cdot (\eta A)\cdot\dot F(t) = \frac{\epsilon(t)}{\alpha} + \frac{\alpha_1}{\alpha}\cdot (\eta A)\cdot\dot{\epsilon(t)}
+	k_{ges} = \frac{1}{\alpha \cdot l}
 \end{equation}
 
-Rearranging this equation leads to
+So $k_1$ and $k_1$ are determined by the stretch coefficient which is known for many webbings and the ratio $\frac{k_1}{k_2}$ that might be similar on different webbings.
+
+\section{Equation of Motion}
+
+By looking at the equations from section \ref{sec:basics} again and considering that the acceleration of the slackliner has an additional input on the force in the dynamic case the force at the slackline anchor can be described with
 
 \begin{equation}
-	\dot F(t) = \frac{-\alpha}{\alpha_1\alpha_2\cdot (\eta A)} \cdot F(t) + \frac{\epsilon (t)}{\alpha_1\alpha_2\cdot(\eta A)} + \frac{\dot{\epsilon} (t)}{\alpha_2}
+	F = \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \cdot F_{vertical} = \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \cdot m\cdot (g - \ddot s)
 \end{equation}
 
-Now we have a linear inhomogeneous differential equation. Solving this equation for the force $F$ gives:
+From the geometrics of the slackline the absolute stretch of one slackline half can be described with
+
+\begin{equation}
+	x = \frac{\Delta l_0}{2} + \sqrt{s^2 + \frac{l^2}{4}} - \sqrt{s_0^2 + \frac{l^2}{4}}
+\end{equation}
+
+where $\Delta l_0 = \alpha \cdot F_0 \cdot l$ is the initial stretch of the line due to pretensioning and $s_0$ is the initial sag of a rodeo line (either $\Delta l_0$ or $s_0$ is always zero). Derivating this equations with respect to the time results in the following two equations:
+
+\begin{align}
+	\dot F &=  m \cdot (g - \ddot s) \left( \frac{\dot s}{2 \cdot \sqrt{s^2 + \frac{l^2}{4}}} - \frac{\dot s}{s^2} \sqrt{s^2 + \frac{l^2}{4}} \right) - m \dddot s \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \\
+	\dot x &= \frac{s \cdot \dot s}{\sqrt{s^2 + \frac{l^2}{4}}}
+\end{align}
+
+Inserting this equation into equation \ref{eqn:linearSolidModel} from the linear solid model and solving for $\dddot s$ leads to the following equation of motion:
 
 \begin{equation}
 \begin{split}
-	F(t) \insertForSmartphone{&}= e^{ \frac{-\alpha t}{\alpha_1\alpha_2\cdot (\eta A)} dt } \cdot \insertForSmartphone{\\ &}\left[ \int_0^t \left( \frac{\epsilon (t')}{\alpha_1\alpha_2\cdot (\eta A)} + \frac{\dot{\epsilon}   (t')}{\alpha_2} \right) \cdot e^{\frac{\alpha t'}{\alpha_1\alpha_2\cdot (\eta A)}} dt' + C \right]
+	\dddot s = \frac{k_1 + k_2}{d} \cdot (g - \ddot s) + \frac{2s\dot s}{l_2}\cdot \left(\frac{1}{2 l_2} - \frac{l_2}{s^2} \right) - \insertForSmartphone{\\}\frac{2sk_1k_2}{dml_1} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2\dot s k_1}{ml_2^2}	
 \end{split}
+\label{eqn:equationOfEmotion}
 \end{equation}
 
-For the simulation the change of force $\Delta F$ between to time steps $\Delta t$ is of interest. Therefore $\Delta F = F(t+\Delta t) - F(t)$ has to be calculated:
+with
 
-\begin{equation}
-\begin{split}
-	\Delta F = F(t)\cdot \left( e^{\frac{-\alpha\cdot \Delta t}{\alpha_1\alpha_2\cdot(\eta A)}} - 1 \right) + e^{\frac{-\alpha(t+\Delta t)}{\alpha_1\alpha_2\cdot (\eta A)}} \cdot \insertForSmartphone{\\} \int_t^{t+\Delta t} \left( \frac{\epsilon (t')}{\alpha_1\alpha_2\cdot(\eta A)} + \frac{\dot{ \epsilon} (t')}{\alpha_1} \right) \cdot e^{\frac{\alpha\cdot t'}{\alpha_1\alpha_2\cdot (\eta A)}} dt'
-\end{split}
-\end{equation}
+\begin{align}
+	l_1 &= \sqrt{s_0^2 + \frac{l^2}{4}} \\
+	l_2 &= \sqrt{s^2 + \frac{l^2}{4}}
+\end{align}
 
- If the time steps are small enough a constant stretch $\epsilon(t) = \epsilon = const$ can be assumed for the integration. The derivation of the stretch changes to $\dot{\epsilon}(t) = \frac{\Delta\epsilon}{\Delta t}$. With this simplification the remaining integral can be solved.
-The result is:
+As it can be seen we have a third order non linear differential equation now that can only be solved with numerical algorithms.
 
-\begin{equation}
-	\Delta F = \left( 1 - e^{\frac{-\alpha\cdot\Delta t}{\alpha_1\alpha_2\cdot (\eta A)}} \right) \cdot \left( \frac{\epsilon}{\alpha} - F(t) + \frac{\alpha_1\cdot (\eta A)}{\alpha} \cdot \frac{\Delta\epsilon}{\Delta t} \right)
-	\label{eqn:finalDynamicEquation}
-\end{equation}
+\section{Solving the Equation of Motion with the Runge-Kutta-Method }
 
-Equation \ref{eqn:finalDynamicEquation} can now easily be used for the simulation. The calculation of the current forces works with the following procedure.
+To solve the equation of motion it has to be transformed into three first order differential equations:
 
-\begin{enumerate}
-	\item Initialize the force with the pretension and the stretch with the force-stretch-diagram
-	\item Calculate the new position of the slackliner and sag of the line according to the previous section
-	\item Calculate the new stretch and $\Delta\epsilon$ with the geometric properties of the line
-	\item Calculate the new force $F(t+\Delta t) = F(t) + \Delta F$ with equation \ref{eqn:finalDynamicEquation}
-	\item Repeat steps 2 - 4
-\end{enumerate}
+\begin{align}
+	\dot s &=G(s,v,a) = v \\
+	\dot v &= H(s,v,a) = a \\
+	\dot a &= I(s,v,a) = \frac{k_1 + k_2}{d} \cdot (g - a) + \frac{2sv}{l_2}\cdot \left(\frac{1}{2 l_2} - \frac{l_2}{s^2} \right) - \\ &\frac{2sk_1k_2}{dml_1} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2v k_1}{ml_2^2}	
+\end{align}
+
+Now the equation can be solved iteratively with the Runge-Kutta-Method (4th order) with the following formula:
+
+\begin{align}
+	s_{t+1} &= s_t + \frac{1}{6} \cdot \Delta t \cdot (M_{1,i} + 2 M_{2,i} +2M_{3,i} +M_{4,i} ) \\ v_{t+1} &= v_t + \frac{1}{6} \cdot \Delta t \cdot (N_{1,i} + 2 N_{2,i} +2N_{3,i} +N_{4,i} ) \\
+	a_{t+1} &= a_t + \frac{1}{6} \cdot \Delta t \cdot (O_{1,i} + 2 O_{2,i} +2O_{3,i} +O_{4,i} ) \\
+\end{align}
+
+with 
+
+\begin{align}
+	M_{1,i} &= G(s_i, v_i, a_i) \\
+	M_{2,i} &= G \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\right) \\
+	M_{3,i} &= G \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\right) \\
+	M_{4,i} &= G \left(t_i + \cdot \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i +\cdot \Delta t \cdot O_{1,i}\right)
+\end{align}
+\begin{align}
+N_{1,i} &= H(s_i, v_i, a_i) \\
+N_{2,i} &= H \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\right) \\
+N_{3,i} &= H \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\right) \\
+N_{4,i} &= H \left(t_i + \cdot \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i +\cdot \Delta t \cdot O_{1,i}\right)
+\end{align}
+\begin{align}
+O_{1,i} &= I(s_i, v_i, a_i) \\
+O_{2,i} &= I \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\right) \\
+O_{3,i} &= I \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\right) \\
+O_{4,i} &= I \left(t_i + \cdot \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i +\cdot \Delta t \cdot O_{1,i}\right)
+\end{align}
 
 
-To get good simulation results dynamic characterizations of some real lines are necessary. However, as a starting point I could find some dynamic parameters of climbing ropes at the following webpage (unfortunately in german): \url{http://www.sigmadewe.com/fileadmin/user_upload/pdf-Dateien/SEILPHYSIK.pdf}.
-For the ropes tested there the ratio $\frac{\alpha_1}{\alpha_2}$ was always about $3$. The viscosity was varying between $\eta A = 4.8 \dots 9\,kN\cdot s$. I can imagine that slacklines might have a lower damping than climbing ropes, but that is only speculation. When I have time I will implement this model and play around with the parameters to see if I can get a good match to existing dynamic force measurements.
+Unfortunately there are no measurements available characterizing the dynamic behavior of different webbings, so the parameters $\frac{k_1}{k_2}$ and $d$ can only be guessed. However, as a starting point there are some measurements on climbing ropes available at the following webpage (unfortunately in german): \url{http://www.sigmadewe.com/fileadmin/user_upload/pdf-Dateien/SEILPHYSIK.pdf}.
+For the ropes tested there the ratio $\frac{k_1}{k_2}$ was always about $3$. The geometry independent damping factor $\delta = d \cdot l$ was varying between $\delta = 4.8 \dots 9\,kN\cdot s$.

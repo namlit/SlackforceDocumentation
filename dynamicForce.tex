@@ -91,7 +91,7 @@ Inserting this equation into equation \ref{eqn:linearSolidModel} from the linear
 \begin{equation}
 \begin{split}
 	\dddot s = \frac{k_1 + k_2}{d} \cdot (g - \ddot s) - 
-	\frac{\dot s\cdot l^2}{4\cdot s \cdot l_2^2}-\insertForSmartphone{\\}
+	\frac{\dot s\cdot l^2}{4\cdot s \cdot l_2^2}\cdot (g - \ddot s) - \insertForSmartphone{\\}
 	\frac{2sk_1k_2}{dml_2} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2\dot s k_1}{ml_2^2}	
 \end{split}
 \label{eqn:equationOfEmotion}
@@ -113,7 +113,7 @@ To solve the equation of motion it has to be transformed into three first order 
 \begin{align}
 	\dot s &=G(s,v,a) = v \\
 	\dot v &= H(s,v,a) = a \\
-	\dot a &\begin{multlined}[t] = I(s,v,a) =\insertForSmartphone{\\} \frac{k_1 + k_2}{d} \cdot (g - a) + \frac{v\cdot l^2}{4\cdot s \cdot l_2^2} - \\ \frac{2sk_1k_2}{dml_1} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2v k_1}{ml_2^2} \\
+	\dot a &\begin{multlined}[t] = I(s,v,a) =\insertForSmartphone{\\} \frac{k_1 + k_2}{d} \cdot (g - a) - \frac{v\cdot l^2}{4\cdot s \cdot l_2^2} \cdot (g - a) - \\ \frac{2sk_1k_2}{dml_2} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2v k_1}{ml_2^2} \\
 	\end{multlined}
 \end{align}
 

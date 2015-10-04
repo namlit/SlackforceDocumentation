@@ -80,7 +80,9 @@ From the geometrics of the slackline the absolute stretch of one slackline half 
 where $\Delta l_0 = \alpha \cdot F_0 \cdot l$ is the initial stretch of the line due to pretensioning and $s_0$ is the initial sag of a rodeo line (either $\Delta l_0$ or $s_0$ is always zero). Derivating this equations with respect to the time results in the following two equations:
 
 \begin{align}
-	\dot F &=  m \cdot (g - \ddot s) \left( \frac{\dot s}{2 \cdot \sqrt{s^2 + \frac{l^2}{4}}} - \frac{\dot s}{s^2} \sqrt{s^2 + \frac{l^2}{4}} \right) - m \dddot s \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \\
+	\dot F & \begin{multlined}[t]=  m \cdot (g - \ddot s) \left( \frac{\dot s}{2 \cdot \sqrt{s^2 + \frac{l^2}{4}}} - \frac{\dot s}{s^2} \sqrt{s^2 + \frac{l^2}{4}} \right) - \insertForSmartphone{\\}
+	m \dddot s \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \\
+	\end{multlined}\\
 	\dot x &= \frac{s \cdot \dot s}{\sqrt{s^2 + \frac{l^2}{4}}}
 \end{align}
 
@@ -109,37 +111,38 @@ To solve the equation of motion it has to be transformed into three first order 
 \begin{align}
 	\dot s &=G(s,v,a) = v \\
 	\dot v &= H(s,v,a) = a \\
-	\dot a &= I(s,v,a) = \frac{k_1 + k_2}{d} \cdot (g - a) + \frac{2sv}{l_2}\cdot \left(\frac{1}{2 l_2} - \frac{l_2}{s^2} \right) - \\ &\frac{2sk_1k_2}{dml_1} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2v k_1}{ml_2^2}	
+	\dot a &\begin{multlined}[t] = I(s,v,a) =\insertForSmartphone{\\} \frac{k_1 + k_2}{d} \cdot (g - a) + \frac{2sv}{l_2}\cdot \left(\frac{1}{2 l_2} - \frac{l_2}{s^2} \right) - \\ \frac{2sk_1k_2}{dml_1} \left(\frac{\Delta l_0}{2} + l_2 - l_1\right) - \frac{2s^2v k_1}{ml_2^2} \\
+	\end{multlined}
 \end{align}
 
 Now the equation can be solved iteratively with the Runge-Kutta-Method (4th order) with the following formula:
 
 \begin{align}
 	s_{t+1} &= s_t + \frac{1}{6} \cdot \Delta t \cdot (M_{1,i} + 2 M_{2,i} +2M_{3,i} +M_{4,i} ) \\ v_{t+1} &= v_t + \frac{1}{6} \cdot \Delta t \cdot (N_{1,i} + 2 N_{2,i} +2N_{3,i} +N_{4,i} ) \\
-	a_{t+1} &= a_t + \frac{1}{6} \cdot \Delta t \cdot (O_{1,i} + 2 O_{2,i} +2O_{3,i} +O_{4,i} ) \\
+	a_{t+1} &= a_t + \frac{1}{6} \cdot \Delta t \cdot (O_{1,i} + 2 O_{2,i} +2O_{3,i} +O_{4,i} ) 
 \end{align}
 
 with 
 
 \begin{align}
-	M_{1,i} &= G(s_i, v_i, a_i) \\
-	M_{2,i} &= G \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\right) \\
-	M_{3,i} &= G \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\right) \\
-	M_{4,i} &= G \left(t_i + \cdot \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i +\cdot \Delta t \cdot O_{1,i}\right)
+M_{1,i} &= G(s_i, v_i, a_i) \\
+M_{2,i} &\begin{multlined}[t]= G \biggl(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \insertForSmartphone{\\} \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\biggr) \\\end{multlined} \\
+M_{3,i} &\begin{multlined}[t]= G \biggl(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \insertForSmartphone{\\} \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\biggr) \\ \end{multlined} \\
+M_{4,i} &\begin{multlined}[t]= G \bigl(t_i +  \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i + \insertForSmartphone{\\} \Delta t \cdot O_{1,i}\bigr)\\ \end{multlined}
 \end{align}
 \begin{align}
 N_{1,i} &= H(s_i, v_i, a_i) \\
-N_{2,i} &= H \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\right) \\
-N_{3,i} &= H \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\right) \\
-N_{4,i} &= H \left(t_i + \cdot \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i +\cdot \Delta t \cdot O_{1,i}\right)
+N_{2,i} &\begin{multlined}[t]= H \biggl(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \insertForSmartphone{\\} \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\biggr)\\ \end{multlined} \\
+N_{3,i} &\begin{multlined}[t]= H \biggl(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \insertForSmartphone{\\} \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\biggr)\\ \end{multlined} \\
+N_{4,i} &\begin{multlined}[t]= H \bigl(t_i + \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i + \insertForSmartphone{\\} \Delta t \cdot O_{1,i}\bigr)\\ \end{multlined}
 \end{align}
 \begin{align}
-O_{1,i} &= I(s_i, v_i, a_i) \\
-O_{2,i} &= I \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\right) \\
-O_{3,i} &= I \left(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\right) \\
-O_{4,i} &= I \left(t_i + \cdot \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i +\cdot \Delta t \cdot O_{1,i}\right)
+O_{1,i} &= I (s_i, v_i, a_i) \\
+O_{2,i} &\begin{multlined}[t]= I \biggl(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{1,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{1,i}, t_i + \insertForSmartphone{\\} \frac{1}{2} \cdot \Delta t \cdot O_{1,i}\biggr)\ \\ \end{multlined} \\
+O_{3,i} &\begin{multlined}[t]= I \biggl(t_i + \frac{1}{2} \cdot \Delta t \cdot M_{2,i}, t_i + \frac{1}{2} \cdot \Delta t \cdot N_{2,i}, t_i + \insertForSmartphone{\\} \frac{1}{2} \cdot \Delta t \cdot O_{2,i}\biggr)\\ \end{multlined} \\
+O_{4,i} &\begin{multlined}[t]= I \bigl(t_i +  \Delta t \cdot M_{1,i}, t_i + \cdot \Delta t \cdot N_{1,i}, t_i + \insertForSmartphone{\\} \Delta t \cdot O_{1,i}\bigr)\\ \end{multlined}
 \end{align}
 
 
-Unfortunately there are no measurements available characterizing the dynamic behavior of different webbings, so the parameters $\frac{k_1}{k_2}$ and $d$ can only be guessed. However, as a starting point there are some measurements on climbing ropes available at the following webpage (unfortunately in german): \url{http://www.sigmadewe.com/fileadmin/user_upload/pdf-Dateien/SEILPHYSIK.pdf}.
+Unfortunately there are no measurements available characterizing the dynamic behavior of different webbings, so the parameters $\frac{k_1}{k_2}$ and $d$ can only be guessed. However, as a starting point there exists a document from \href{http://www.sigmadewe.com/fileadmin/user\_upload/pdf-Dateien/SEILPHYSIK.pdf}{Ulrich Leuthäusser} with some measurements on climbing ropes.
 For the ropes tested there the ratio $\frac{k_1}{k_2}$ was always about $3$. The geometry independent damping factor $\delta = d \cdot l$ was varying between $\delta = 4.8 \dots 9\,kN\cdot s$.

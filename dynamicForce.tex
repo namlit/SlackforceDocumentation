@@ -1,10 +1,14 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+% !TeX root = slackforceDocumentation.tex
+
 \chapter{Dynamic Force Simulation}
 
-In the previous section the calculations at static conditions were described. However, normally you do not just stand statically in the middle of a slackline. Often you want to do some bouncing or jumping which leads to a significant increase of force on the line. The goal of this section is to calculate those forces and get an idea of the influence of different setup parameters like length, pretension and stretch.
+In the previous section the calculations at static conditions were described. However, normally you do not just stand statically in the middle of a slackline. Often you want to do some bouncing or jumping, which leads to a significant increase of force on the line. The goal of this section is to calculate those forces and get an idea of the influence of different setup parameters like length, pretension and stretch.
 
 \section{Slackline as a Spring}
 
-The simplest approach is to consider the slackline as a spring that can be described with the same formulas as in the previous section. Together with the following formulas and the formulas described in section \ref{sec:basics} it is easy to calculate the movement of the slackliner and the corresponding force:
+The simplest approach is to consider a slackline as a spring that can be described with the same formulas as in the previous section. Together with the following formulas and the formulas described in section \ref{sec:basics} it is easy to calculate the movement of the slackliner and the corresponding force:
 
 \begin{align}
 v(t) &= at+v_0 \\
@@ -12,7 +16,7 @@ s(t) &= \frac{a}{2}t^2 + v_0 t + s_0 \\
 F &= a\cdot m
 \end{align}
 
-$a$ is the acceleration, $m$ the mass, $v$ the speed and $s$ the current sag. In a first version of the app the following iterative algorithm was used to simulate the movement of a slackliner: 
+where $a$ is the acceleration, $m$ the mass, $v$ the speed and $s$ the current sag. In a first version of the app the following iterative algorithm was used to simulate the movement of a slackliner: 
 
 \begin{enumerate}
 	\item Set the sag of the slackline to the current position of  the slackliner
@@ -34,7 +38,7 @@ However, this approach as some disadvantages. First from a numerical perspective
 	\label{fig:dynamicStandardModel}
 \end{figure}
 
-The standard linear solid model shown in figure \ref{fig:dynamicStandardModel} is a model to describe the behavior of viscoelastic materials. The springs and damper in the model can be described with the following equations:
+In this app, a calculation based on the standard linear solid model, as shown in Figure \ref{fig:dynamicStandardModel}, is proposed as basis for dynamic slackline simulations. This model is commonly used to describe the behavior of viscoelastic materials. The springs and damper in the model can be described with the following equations:
 
 \begin{align}
 F_{k_1} &= k_1 \cdot x_1 \\
@@ -42,7 +46,7 @@ F_{k_2} &= k_1 \cdot x_2 \\
 F_{d} &= d \cdot \dot x_2
 \end{align}
 
-From the connection of the elements in figure \ref{fig:dynamicStandardModel} follows:
+From the connection of the elements in Figure \ref{fig:dynamicStandardModel} follows:
 
 \begin{equation}
 	F_{k_1} = F_{k_2} + F_d
@@ -55,29 +59,29 @@ Together with $x_1 + x_2 = x$ and $F = k_1 \cdot x_1$ the following equation can
 	\label{eqn:linearSolidModel}
 \end{equation}
 
-With this equation the behavior of the slackline will be described in the following. For static conditions we have $\dot x_1 = 0$. Therefore the total spring constant $k_{ges} = \frac{k_1 \cdot k_2}{k_1 + k_2}$ can be described by the static stretch behavior of the slackline from the previous chapter with the following formula:
+With this equation the behavior of the slackline will be described in the following. For static conditions we have $\dot x_1 = 0$. Therefore the total spring constant $k_{ges} = \frac{k_1 \cdot k_2}{k_1 + k_2}$ can be described by the static stretch behavior of the slackline the following formula:
 
 \begin{equation}
 	k_{ges} = \frac{1}{\alpha \cdot l}
 \end{equation}
 
-So $k_1$ and $k_2$ are determined by the stretch coefficient which is known for many webbings and the ratio $\frac{k_1}{k_2}$ that might be similar on different webbings.
+$k_1$ and $k_2$ are determined by the stretch coefficient which is known for many webbings and the ratio $\frac{k_1}{k_2}$ that might be similar on different webbings.
 
 \section{Equation of Motion}
 
-By looking at the equations from section \ref{sec:basics} again and considering that the acceleration of the slackliner has an additional input on the force in the dynamic case the force at the slackline anchor can be described with
+By looking at the equations from Section \ref{sec:basics} again and considering that the acceleration of the slackliner has an additional input on the force in the dynamic case, the force at the slackline anchor can be described as
 
 \begin{equation}
 	F = \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \cdot F_{vertical} = \frac{\sqrt{s^2 + \frac{l^2}{4}}}{2 \cdot s} \cdot m\cdot (g - \ddot s)
 \end{equation}
 
-From the geometrics of the slackline the absolute stretch of one slackline half can be described with
+From the geometrics of the slackline the absolute stretch of one slackline half can be described as
 
 \begin{equation}
 	x = \frac{\Delta l_0}{2} + \sqrt{s^2 + \frac{l^2}{4}} - \sqrt{s_0^2 + \frac{l^2}{4}}
 \end{equation}
 
-where $\Delta l_0 = \alpha \cdot F_0 \cdot l$ is the initial stretch of the line due to pretensioning and $s_0$ is the initial sag of a rodeo line (either $\Delta l_0$ or $s_0$ is always zero). Derivating this equations with respect to the time results in the following two equations:
+where $\Delta l_0 = \alpha \cdot F_0 \cdot l$ is the initial stretch of the slackline due to pretensioning and $s_0$ is the initial sag of a rodeo line (either $\Delta l_0$ or $s_0$ is always zero). Derivating this equations with respect to the time results in the following two equations:
 
 \begin{align}
 	\dot F & \begin{multlined}[t]=  -\frac{l^2}{8}\cdot m \cdot (g - \ddot s) \frac{\dot s}{s^2 \cdot \sqrt{s^2 + \frac{l^2}{4}}} - \insertForSmartphone{\\}
@@ -104,7 +108,7 @@ with
 	l_2 &= \sqrt{s^2 + \frac{l^2}{4}}
 \end{align}
 
-As it can be seen we have a third order non linear differential equation now that can only be solved with numerical algorithms.
+As  can be seen, we have a third order, non linear differential equation, that can only be solved with numerical algorithms.
 
 \section{Solving the Equation of Motion with the Runge-Kutta-Method }
 
@@ -147,4 +151,4 @@ O_{4,i} &\begin{multlined}[t]= I \bigl(t_i +  \Delta t \cdot M_{1,i}, t_i + \cdo
 
 
 Unfortunately there are no measurements available characterizing the dynamic behavior of different webbings, so the parameters $\frac{k_1}{k_2}$ and $d$ can only be guessed. However, as a starting point there exists a document from \href{http://www.sigmadewe.com/fileadmin/user\_upload/pdf-Dateien/SEILPHYSIK.pdf}{Ulrich Leuthäusser} with some measurements on climbing ropes.
-For the ropes tested there the ratio $\frac{k_1}{k_2}$ was always about $3$. The geometry independent damping factor $\delta = d \cdot l$ was varying between $\delta = 4.8 \dots 9\,kN\cdot s$.
+For the ropes tested there, the ratio $\frac{k_1}{k_2}$ was always about $3$. The geometry independent damping factor $\delta = d \cdot l$ was varying between $\delta = 4.8 \dots 9\,kN\cdot s$.

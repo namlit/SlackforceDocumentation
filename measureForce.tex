@@ -1,17 +1,21 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+% !TeX root = slackforceDocumentation.tex
+
 \chapter{Measure Force}
 
-When slapping a tensioned Slackline with your finger you will hear a sound from the line multiple times. The idea is to calculate the pretension of the line from the frequency of that sound. The slapping of line results in  a mechanical wave propagating along the line and reflected at its ends. The propagation speed is depending on the tension of the line.
+When slapping a tensioned slackline with your finger, you will hear a corresponding acoustical sound. The sound travels along the slackline as a mechanical wave and gets reflected at the end of the slackline. The propagation speed directly depends on the tension and the weight of the slackline. The idea is to calculate the pretension of the slackline from the time that sound needs to travel along the slackline back and forth. 
 
 \section{Physical Background}
 
-The propagation speed of a wave on a tensioned rope or slackline can be described with the following formula:
+The propagation speed of a wave on a tensioned rope or slackline can be described with the following formula
 
 \begin{equation}
 v = \sqrt{\frac{F}{\mu_0}}
 \label{eqn:speed1}
 \end{equation}
 
-$v$ is the propagation speed, $F$ the force and $\mu_0$ the weight per unit length of the line. In between two sounds the mechanical wave travels from one anchor to the other and back, so it covers a distance two times the length $l$ of the line. If you measure the time of oscillation $t_{osc}$ the propagation speed can be calculated:
+where $v$ is the propagation speed, $F$ the force and $\mu_0$ the weight per unit length of the line. In between two sounds, the mechanical wave travels from one slackline anchor to the other and back, so it covers a distance two times the length $l$ of the line. If you measure the time of oscillation $t_{osc}$ the propagation speed can be calculated as:
 
 \begin{equation}
 	v = \frac{2\cdot l}{t_{osc}}
@@ -25,17 +29,17 @@ If you combine equation \ref{eqn:speed1} and \ref{eqn:speed2} and solve for the 
 	\label{eqn:measureForce}
 \end{equation}
 
-$F_0$ is the pretension of the line. As you can see the weight and the length of the line have to be known. In the app the time of oscillation can be measured automatically with the microphone and some simple audio processing or manually by typing the heard sound pattern on a button.
+$F_0$ is the pretension of the line. As you can see, the weight and the length of the line have to be known. In the app the time of oscillation can be measured automatically with the microphone and some simple audio processing or manually by typing sound pattern on a button.
 
 \section{The Influence of the Stretch Characteristic}
 
-During the tensioning of the line, the line also stretches. As the total weight of the line does not change this leads to a decrease of weight per unit length. Therefore equation \ref{eqn:measureForce} contains a systematic error on stretchy webbings. To take this into account a linear stretch behavior corresponding to the following formula is assumed.
+During the tensioning of the line, the line also stretches. As the total weight of the line does not change, this leads to a decrease of weight per unit length. Therefore equation \ref{eqn:measureForce} contains a systematic error on stretchy webbings. To take this into account a linear stretch behavior corresponding to the following formula is assumed.
 
 \begin{equation}
 	\frac{\Delta l}{l} = \alpha \cdot F
 \end{equation}
 
-$\alpha$ is the stretch coefficient and $F$ is the force on the line. The corrected weight per unit length is calculated to
+where $\alpha$ is the stretch coefficient and $F$ is the force on the line. The corrected weight per unit length is calculated to
 
 \begin{equation}
 	\mu = \mu_0 \cdot \frac{1}{1+\alpha\cdot F}

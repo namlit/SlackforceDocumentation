@@ -1,5 +1,9 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+% !TeX root = slackforceDocumentation.tex
+
 \chapter{Calculate Force} \label{sec:calculateForce}
-The forces of the line are obtained by using the geometric setup of the line at a given load. If the tension of the line at a given sag is known the tension at a different sag can easily be calculated with the aid of the stretch behavior.
+The forces in a slackline can be obtained by using the geometric setup of the line at a given load. If the tension of the line at a given sag is known the tension at a different sag can easily be calculated with the aid of the stretch behavior.
 
 \section{Basics} \label{sec:basics}
 
@@ -9,7 +13,7 @@ The forces of the line are obtained by using the geometric setup of the line at 
 	\label{fig:slacklineWithForces}
 \end{figure}
 
-Figure \ref{fig:slacklineWithForces} shows a scheme of a slackline with a given length and sag. The load that is applied in the middle of the line results in a specific sag. The force on the anchor is determined by the vertical and horizontal force. The forces of the left part of the line look the same. The total force will be the sum of forces on the left and the right side. So the horizontal components will eliminate each other and the vertical ones are added. If a slackliner is standing on the line the total vertical force corresponds to the slackliner's weight. From the geometric properties shown in figure \ref{fig:slacklineWithForces} the following equation can easily be derived:
+Figure \ref{fig:slacklineWithForces} shows a scheme of a slackline with a given length and sag. The load that is applied in the middle of the line results in a specific sag. The force on the anchor $F_a$ is determined by the vertical Force $F_v$ and horizontal force $F_h$ as shown in Figure \ref{fig:slacklineWithForces}. The forces on the left part of the line correspond to the shown forces on the right side. The total force is the sum of the forces on the left and the right side. The horizontal components eliminate each other while the vertical ones add up. If a slackliner is standing on the line, the total vertical force corresponds to the slackliner's weight. From the geometric properties shown in figure \ref{fig:slacklineWithForces} the following equation can easily be derived:
 
 
 \begin{equation}
@@ -27,7 +31,7 @@ Together with the gravity acceleration $g = 9.81\frac{m}{s^2}$ and the weight of
 \end{align}
 \end{spreadlines}
 
-With Equation \ref{eqn:calcForce} - \ref{eqn:calcLength} it is possible to calculate any of the parameters force, weight of slackliner, sag and length if the other parameters are known.
+With Equation \ref{eqn:calcForce} - \ref{eqn:calcLength} it is possible to calculate any of the parameters force, weight of slackliner, sag and length, if the other parameters are known.
 
 \section{Calculating the Pretension}
 
@@ -37,7 +41,7 @@ With Equation \ref{eqn:calcForce} - \ref{eqn:calcLength} it is possible to calcu
 	\label{fig:forceStretchDiagramm}
 \end{figure}
 
-If you know the tension of the line when a person stands on it and the stretch behavior it is possible to calculate the pretension. Figure \ref{fig:forceStretchDiagramm} shows the stretch behavior of a Type 18 MKII line as an example. It can be seen that the stretch is not linear. To get the pretension of the line you need to know the increase of length $\Delta l$ due to the sag of the line. This can be calculated with the following formula:
+If you know the (walking) tension of a slackline with a person standing in the middle and the stretch behavior, it is possible to calculate the pretension. Figure \ref{fig:forceStretchDiagramm} shows the stretch behavior of a Type 18 MKII line as an example. It can be seen that the stretch is not linear. To get the pretension of the line you need to know the increase of length $\Delta l$ due to the sag of the line. This can be calculated with the following formula:
 
 \begin{equation}
 	\Delta l = 2\cdot l_1 - l= 2\cdot \sqrt{s^2+\frac{l^2}{4}} - l
@@ -53,17 +57,17 @@ To get the pretension you have to do the following steps:
 	\item Read the pretension from the force-stretch-diagram
 \end{enumerate}
 
-If a linear stretch behavior $\frac{\Delta l}{l} = \alpha\cdot F$ is assumed it is possible to put that relation into an analytic formula:
+If a linear stretch behavior $\frac{\Delta l}{l} = \alpha\cdot F$ is assumed, it is possible to put that relation into an analytic formula:
 
 \begin{equation}
 	F = F_0 + \frac{2\cdot \sqrt{s^2+\frac{l^2}{4}} - l}{\alpha\cdot l}
 \end{equation}
 
-However, the App always uses the force-stretch-diagram as the results are better with that method.  Unfortunately some slackline manufacturers provide very little information on the stretch behavior of their lines and only a few data points are available. The app interpolates those data points linear to get the force-stretch-diagram.
+However, the app always uses the force-stretch-diagram if available, as the results are better with that method.  Unfortunately some slackline manufacturers provide very little information on the stretch behavior of their lines and only a few data points are available. The app interpolates those data points linear for the calculations.
 
 \section{Rodeo Lines}
 
-Rodeo Lines are slacklines with a lot of sag and no pretension. So the pretension $F_0$ is always zero and the line has an initial sag $s_0$ without any slackliner on the line. When a slackliner steps on the line, it might stretch further and lead to a sag greater than the initial sag. Figure \ref{fig:RodeoLineWithForces} shows the forces on an rodeo line.
+Rodeo Lines are slacklines with a lot of sag and no pretension. So the pretension $F_0$ is always zero and the line has an initial sag $s_0$ without any slackliner standing on the line. When a slackliner steps on the line, it might stretch further and lead to a sag greater than the initial sag. Figure \ref{fig:RodeoLineWithForces} shows the forces on an rodeo line.
 
 \begin{figure}[htb] \centering
 	\includegraphics[width=0.8\textwidth]{images/rodeoLineWithForces.pdf}
@@ -87,11 +91,11 @@ In addition there is no pretension to calculate, but you can calculate the initi
 
 \section{Calculating Slackline Forces from the Pretension}
 
-Unfortunately it is very difficult for linear stretch behavior and impossible for a custom stretch behavior to get an analytic expression of the slackline force that is a function of the pretension. Therefore some kind of approximation algorithm has to be used. The App is currently using the Illinois algorithm, because that seems to work quite well.
+Unfortunately it is very difficult for linear stretch behavior and impossible for a custom stretch behavior to get an analytic expression of the walking tension, that is a function of the pretension. Therefore some kind of approximation algorithm has to be used. The App is currently using the Illinois algorithm.
 
 \section{Slackliner who is not in the middle of the Line (not implemented)}
 
-It is assumed that the slackliner is standing at a position $p \in [0,1]$ on the line. The forces are always calculated for the left anchor point. The forces at the right anchor point equal the forces at the left anchor point at position $1-p$. Figure \ref{fig:slacklineWithForcesUnsymmetric} shows the forces in this new setup. If the slackliner stands still the horizontal forces have to be the same on both sides. That leads to different vertical forces and anchor forces on both sides.
+In the following it is assumed, that the slackliner is standing at a position $p \in [0,1]$ on the line. The forces are always calculated for the left anchor point. The forces at the right anchor point equal the forces at the left anchor point at position $1-p$. Figure \ref{fig:slacklineWithForcesUnsymmetric} shows the forces in this new setup. If the slackliner is not moving, the horizontal forces have to be the same on both sides. That leads to different vertical forces and anchor forces on both sides.
 
 \begin{figure}[htb] \centering
 	\begin{subfigure}{\textwidth} \centering
